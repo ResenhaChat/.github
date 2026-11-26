@@ -33,7 +33,7 @@
 
 ## Frontend — `resenhachat.github.io`
 
-- **SAP UI5** freestyle em TypeScript, namespace `apps.dflc.resenha`, identidade visual própria (fonte Inter, gradiente roxo → coral,
+- **SAP UI5** freestyle em TypeScript, namespace `apps.dflc.resenha`, identidade visual própria (fonte Inter, gradiente azul (cor do logo),
   tema claro/escuro).
 - **MVC modular**: views XML só com layout e binding; controllers e seções (`controller/chat/*Section.ts`) tratam eventos;
   `service/` encapsula OData (`ChatService`, `PushService`) e WebSocket (`RealtimeService`); `auth/AuthService` é o único com `fetch`.
