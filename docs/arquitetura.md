@@ -28,7 +28,8 @@
   `SetMemberRole`, `LeaveConversation`, `JoinChannel`, `PushPublicKey`, `SubscribePush`, `UnsubscribePush`, `SendPushTest`.
   Toda leitura é filtrada pelo usuário: conversa e mensagens só de quem é membro; e-mail e senha de terceiros nunca saem.
 - **Papéis**: quem cria um grupo ou canal vira dono. Dono e admins editam a conversa e gerenciam membros; só o dono promove e
-  rebaixa admins. Canal com "só admins publicam" bloqueia o envio no servidor. Cada mudança vira um aviso do sistema na conversa.
+  rebaixa admins. Canal com "só admins publicam" bloqueia o envio no servidor. Cada mudança vira um aviso do sistema na conversa,
+  gravado como chave i18n + parâmetros e traduzido na leitura para o idioma de quem lê (`Accept-Language`).
 - **Tempo real**: toda escrita passa pelo OData (validada e transacional). Depois do commit, o service publica um evento no
   `RealtimeHub`, que avisa pelo WebSocket só quem pode ver. O front relê pelo OData. Eventos: `presence.snapshot`, `presence.changed`,
   `message.created`, `conversation.read`, `conversation.created`, `conversation.updated`, `members.changed`, `typing` (contrato em `srv/realtime/events.ts`).
