@@ -23,12 +23,15 @@
   `models`, `factories` (injeção de dependência).
 - **Autenticação própria**: `POST /auth/register|login|refresh|logout`. Senha com bcrypt, access token JWT (1 h) e refresh token
   rotativo (30 dias, guardado com hash). Reuso de refresh token derruba todas as sessões do usuário.
-- **Serviço `/service/Chat`** (só usuário autenticado): `People`, `Me`, `MySettings`, `Conversations`, `Members`, `Messages` e as
-  actions `SendMessage`, `MarkAsRead`, `PushPublicKey`, `SubscribePush`, `UnsubscribePush`, `SendPushTest`. Toda leitura é filtrada pelo
-  usuário: conversa e mensagens só de quem é membro; e-mail e senha de terceiros nunca saem.
+- **Serviço `/service/Chat`** (só usuário autenticado): `People`, `Me`, `MySettings`, `Conversations`, `Members`, `Messages`,
+  `PublicChannels` e as actions `SendMessage`, `MarkAsRead`, `StartDirect`, `CreateConversation`, `AddMembers`, `RemoveMember`,
+  `SetMemberRole`, `LeaveConversation`, `JoinChannel`, `PushPublicKey`, `SubscribePush`, `UnsubscribePush`, `SendPushTest`.
+  Toda leitura é filtrada pelo usuário: conversa e mensagens só de quem é membro; e-mail e senha de terceiros nunca saem.
+- **Papéis**: quem cria um grupo ou canal vira dono. Dono e admins editam a conversa e gerenciam membros; só o dono promove e
+  rebaixa admins. Canal com "só admins publicam" bloqueia o envio no servidor. Cada mudança vira um aviso do sistema na conversa.
 - **Tempo real**: toda escrita passa pelo OData (validada e transacional). Depois do commit, o service publica um evento no
   `RealtimeHub`, que avisa pelo WebSocket só quem pode ver. O front relê pelo OData. Eventos: `presence.snapshot`, `presence.changed`,
-  `message.created`, `conversation.read`, `typing` (contrato em `srv/realtime/events.ts`).
+  `message.created`, `conversation.read`, `conversation.created`, `conversation.updated`, `members.changed`, `typing` (contrato em `srv/realtime/events.ts`).
 - **Push**: mensagem nova gera Web Push para membros offline, não silenciados e com notificações ligadas.
 
 ## Frontend — `resenhachat.github.io`
